@@ -32,7 +32,6 @@ void imprimir_tablero(const vector<vector<int>>& tablero){
             else if(tablero[i][j] == ENTRADA)cout<< "E";
             else if (tablero[i][j] == SALIDA)cout<< "S";
             else if (tablero[i][j] == RECORRIDO)cout<< "*";
-       
         }
         cout<<"\n";
     }
@@ -66,9 +65,7 @@ void generador_dfs(vector<vector<int>>&tablero, int x, int y){
                 generador_dfs(tablero, nueva_x, nueva_y);   //Backtracking de post-procesamiento (recursivo).
             }
         }
-
     }
-
 }
 
 // Resolver laberinto con BFS
@@ -129,19 +126,29 @@ bool resolucion_bfs(vector<vector<int>>&tablero, int entrada_x, int entrada_y, i
                 }
             }
         }
-
     }
     return false; // No hay caminos
 }
 
 int main(){
-    int filas, columnas;
+    // Valores por defecto (paso 1: tamaño fijo)
+    int filas = 10;
+    int columnas = 10;
 
-    // Pedir dimensiones al usuario
-    cout << "Ingrese el numero de filas (minimo 5): ";
-    cin >> filas;
-    cout << "Ingrese el numero de columnas (minimo 5): ";
-    cin >> columnas;
+    // Input opcional del usuario (paso 2: configurable)
+    cout << "Ingrese el numero de filas (minimo 5, ENTER para usar 10): ";
+    string entradaFilas;
+    getline(cin, entradaFilas);
+    if(!entradaFilas.empty()) {
+        filas = stoi(entradaFilas);
+    }
+
+    cout << "Ingrese el numero de columnas (minimo 5, ENTER para usar 10): ";
+    string entradaColumnas;
+    getline(cin, entradaColumnas);
+    if(!entradaColumnas.empty()) {
+        columnas = stoi(entradaColumnas);
+    }
 
     // Validación: no permitir valores menores a 5
     if(filas < 5 || columnas < 5){
@@ -182,10 +189,10 @@ int main(){
     auto duracion_resolucion = chrono::duration_cast<chrono::microseconds>(fin_resolucion - inicio_resolucion).count();
 
     if(encontrado){
-    cout << "\nCamino encontrado:\n";
-    imprimir_tablero(tablero);
+        cout << "\nCamino encontrado:\n";
+        imprimir_tablero(tablero);
     } else {
-    cout << "\nNo hay camino.\n";
+        cout << "\nNo hay camino.\n";
     }
     cout << "Tiempo de resolucion: " << duracion_resolucion << " microsegundos\n";
 
